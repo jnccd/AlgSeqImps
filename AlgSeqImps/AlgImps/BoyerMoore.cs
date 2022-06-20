@@ -23,21 +23,57 @@ namespace AlgSeqImps.AlgImps
             int n = text.Length;
             int m = pattern.Length;
 
-            int[] badmatch = new int[pattern.Length];
-            for (int i = 0; i < badmatch.Length; i++)
+            Dictionary<char, int> badmatchtable = new();
+            for (int i = 0; i < m; i++)
             {
-                badmatch[i] = m - i - 1;
+                var v = m - i - 1;
+                if (i == m - 1)
+                    v = m;
 
-                for (int j = 0; j < i; j++)
-                    if (pattern[i] == pattern[j])
-                        badmatch[j] = badmatch[i];
+                if (!badmatchtable.ContainsKey(pattern[i]))
+                    badmatchtable.Add(pattern[i], v);
+                if (badmatchtable[pattern[i]] < v)
+                    badmatchtable[pattern[i]] = v;
             }
-            for (int i = 0; i < badmatch.Length; i++)
+            Console.WriteLine("Bad Match Table: ");
+            foreach (var kvp in badmatchtable)
+                Console.WriteLine($"{kvp.Key} - {kvp.Value}");
+
+            List<int> matches = new();
+            for (int i = m - 1; i < text.Length; )
             {
-                Console.Write($"{pattern[i]} - {badmatch[i]}");
+                int miss = -1;
+                for (int j = 0; j < m; j++)
+                {
+                    if (text[i - j] != pattern[m - j - 1])
+                    {
+                        miss = i - j;
+                        break;
+                    }
+                }
+
+                if (miss > 0)
+                {
+                    if (!badmatchtable.ContainsKey(text[miss]))
+                        i += m;
+                    else
+                        i += badmatchtable[text[miss]];
+                }
+                else
+                {
+                    matches.Add(i - m + 1);
+                    i++;
+                }
             }
 
-
+            Console.WriteLine("Matches: ");
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (matches.Contains(i))
+                    Console.WriteLine(text[i] + " x");
+                else
+                    Console.WriteLine(text[i]);
+            }
 
             Console.WriteLine();
         }
