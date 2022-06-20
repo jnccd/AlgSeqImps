@@ -31,6 +31,9 @@ namespace AlgSeqImps
 
             if (chosenAlg != null && !string.IsNullOrWhiteSpace(inAlgName))
             {
+                Console.WriteLine($"Starting {chosenAlg.name} Algorithm...");
+                Console.WriteLine();
+
                 while (true)
                     chosenAlg.Run();
             }
