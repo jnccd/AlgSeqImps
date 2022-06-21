@@ -24,6 +24,7 @@ namespace AlgSeqImps.AlgImps
             {
                 if (i < text.Length - pattern.Length + 1)
                 {
+                    // Seperately check each letter in pattern and text
                     bool fits = true;
                     for (int j = 0; j < pattern.Length; j++)
                     {
@@ -31,6 +32,7 @@ namespace AlgSeqImps.AlgImps
                             fits = false;
                     }
 
+                    // Output x next to letter for matches
                     if (fits)
                         Console.WriteLine(text[i] + " x");
                     else

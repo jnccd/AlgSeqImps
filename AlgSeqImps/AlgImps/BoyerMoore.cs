@@ -8,7 +8,7 @@ namespace AlgSeqImps.AlgImps
 {
     class BoyerMoore : Alg
     {
-        public BoyerMoore() : base("BoyerMoore")
+        public BoyerMoore() : base("Boyer-Moore")
         {
 
         }
@@ -23,6 +23,7 @@ namespace AlgSeqImps.AlgImps
             int n = text.Length;
             int m = pattern.Length;
 
+            // Build rightocc based table for jumps
             Dictionary<char, int> badmatchtable = new();
             for (int i = 0; i < m; i++)
             {
@@ -39,9 +40,11 @@ namespace AlgSeqImps.AlgImps
             foreach (var kvp in badmatchtable)
                 Console.WriteLine($"{kvp.Key} - {kvp.Value}");
 
+            // Text traversal
             List<int> matches = new();
             for (int i = m - 1; i < text.Length; )
             {
+                // Check pattern using right to left scan in position i
                 int miss = -1;
                 for (int j = 0; j < m; j++)
                 {
@@ -52,6 +55,7 @@ namespace AlgSeqImps.AlgImps
                     }
                 }
 
+                // If we missed: jump using bad character rule, else add current position to matches
                 if (miss > 0)
                 {
                     if (!badmatchtable.ContainsKey(text[miss]))

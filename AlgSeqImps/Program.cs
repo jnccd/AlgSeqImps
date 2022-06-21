@@ -23,24 +23,27 @@ namespace AlgSeqImps
             Console.WriteLine("I found the following Algorithms:");
             foreach (var alg in algs)
                 Console.WriteLine(alg.name);
-            Console.WriteLine();
-            Console.Write("Please type the name of the Algorithm you want to use: ");
-            string inAlgName = Console.ReadLine().ToLower();
 
-            Alg chosenAlg = algs.FirstOrDefault(x => x.name.ToLower().StartsWith(inAlgName));
-
-            if (chosenAlg != null && !string.IsNullOrWhiteSpace(inAlgName))
+            while (true)
             {
-                Console.WriteLine($"Starting {chosenAlg.name} Algorithm...");
                 Console.WriteLine();
+                Console.Write("Please type a unique prefix of the name of the Algorithm you want to use: ");
+                string inAlgName = Console.ReadLine().ToLower();
 
-                while (true)
-                    chosenAlg.Run();
-            }
-            else
-            {
-                Console.WriteLine("I dont know that one");
-                Console.ReadKey();
+                Alg chosenAlg = algs.FirstOrDefault(x => x.name.ToLower().StartsWith(inAlgName));
+
+                if (chosenAlg != null && !string.IsNullOrWhiteSpace(inAlgName))
+                {
+                    Console.WriteLine($"Starting {chosenAlg.name} Algorithm...");
+                    Console.WriteLine();
+
+                    while (true)
+                        chosenAlg.Run();
+                }
+                else
+                {
+                    Console.WriteLine("I dont know that one");
+                }
             }
         }
     }
